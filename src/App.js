@@ -11,19 +11,15 @@ import Account from './pages/Account';
 import Notfound from './pages/Notfound';
 import Settings from './pages/Settings'
 import Searchedloader from './Loaders/Searchedloader';
-
+import Landing from './pages/Landing'
 
 function App() {
-/*   window.addEventListener('load',() => {
-
-  }) */
-
 
   return (
     <div className='App flex-col flex justify-between'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />}></Route>
+          <Route path='/' element={ <Landing/> }></Route>
           <Route path='/404/notfound' element={<Notfound />}></Route>
           <Route path='/song/:id' element={<Song />}></Route>
           <Route path='/home' element={<Home/>}></Route>
