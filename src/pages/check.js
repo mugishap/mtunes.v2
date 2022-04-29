@@ -1,4 +1,5 @@
-exports.checkForAccess = async () => {
+
+export async function checkForAccess() {
     try {
         let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
         res = await res.json()
