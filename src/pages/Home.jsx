@@ -64,7 +64,7 @@ function Home(props) {
                 method: 'GET',
                 headers: {
                     'X-RapidAPI-Host': 'shazam.p.rapidapi.com',
-                    'X-RapidAPI-Key': '62de5e1dc1msh84eb3330db26ccep1f1fccjsn95145395def8'
+                    'X-RapidAPI-Key': 'a6a50747c6msh3b9df5163dc6c28p1bb422jsn7f9f8d1462fc'
                 },
                 mode: 'no-cors'
             }).then(res => res.json())
