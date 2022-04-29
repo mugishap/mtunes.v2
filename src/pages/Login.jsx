@@ -16,7 +16,7 @@ function Login() {
     await fetch('https://mtunes-backend.herokuapp.com/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode:'no-cors',
+      // mode:'no-cors',
       credentials: 'include',
       body: JSON.stringify({
         email: (email),
