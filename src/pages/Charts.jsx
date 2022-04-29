@@ -1,0 +1,101 @@
+/* eslint-disable no-unused-vars */
+import React from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import Searchbar from '../components/Searchbar'
+import './Home.css'
+// require('dotenv').config()
+function Home() {
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+        }
+
+        return array;
+    }
+    const checkForAccess = async () => {
+        try {
+            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
+            res = await res.json()
+            console.log(res)
+            setLoader(false)
+            if (res.message === "#NoTokenNoEntry") {
+                console.log("Token is not there")
+                window.alert('No token generated!!! Authentication gone wrong')
+                window.location.replace('/login')
+            }
+            else if (res.message === "#FailedToParseToken") {
+                window.location.replace('/login')
+            } else if (res.message === "#Success") {
+                // window.location.replace('/charts')
+            }
+        } catch (e) {
+            console.log("Error here", e)
+        }
+    }
+
+    const [songs, setSongs] = useState([])
+    const [loader, setLoader] = useState(true)
+
+    useEffect(() => {
+        checkForAccess()
+        getSongs()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    const getSongs = async () => {
+        checkForAccess()
+        const check = localStorage.getItem('chartSongs')
+        if (check !== null) {
+            const inLocal = JSON.parse(localStorage.getItem('chartSongs'))
+            // console.log(inLocal);
+            setSongs(inLocal.tracks)
+            // console.log(songs);
+        }
+        else if (check === null) {
+            checkForAccess()
+            await fetch('https://shazam.p.rapidapi.com/charts/track?locale=en-US&pageSize=20&startFrom=0', {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Host': 'shazam.p.rapidapi.com',
+                    'X-RapidAPI-Key': '62de5e1dc1msh84eb3330db26ccep1f1fccjsn95145395def8'
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    setSongs(data.tracks)
+                    setLoader(false)
+                    // console.log(songs)
+                    localStorage.setItem('chartSongs', JSON.stringify(data))
+                })
+        }
+    }
+    useEffect(() => {
+        // console.log(songs)
+    }, [songs])
+    return (
+        <div className="body">
+            <Navbar />
+            <Searchbar />
+            <div className='home'>
+
+                {shuffle(songs).map((track) => {
+                    return (
+                        <Link to={'/song/' + track.key}>
+                            <div key={track.key} className='display p-2 hover:scale-125 flex items-center justify-center'>
+                                <img src={track.images.coverart} className='w-10/12 h-36' alt="" />
+                                <span className='w-4/5 flex items-center justify-start text-left'>{track.share.subject}</span>
+                            </div>
+                        </Link>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+export default Home

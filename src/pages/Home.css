@@ -1,0 +1,12 @@
+
+a:-webkit-any-link {
+  text-decoration: none;
+}
+.dark {
+  background-color: #000000c4;
+  color: white;
+}
+.light {
+  background-color: #fff;
+  color: black;
+}

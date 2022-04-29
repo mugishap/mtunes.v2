@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    transition: ease all .5s;
+}
+
+@font-face {
+    font-family: Lobster;
+    src: url('fonts/Lobster-Regular.ttf');
+}
+@font-face {
+    font-family: Source;
+    src: url('fonts/SourceSansPro-Regular.ttf');
+}
+.logo-text{
+font-family: Lobster;
+}
+*{
+    font-family: Source;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
