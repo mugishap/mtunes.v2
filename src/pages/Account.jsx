@@ -24,7 +24,7 @@ function Account(props) {
 
   const checkForAccess = async () => {
     try {
-      let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
+      let res = await fetch('http://localhost:4040/user/checkForAccess', { method: 'GET', credentials: 'include' })
       res = await res.json()
       // console.log(res)
       if (res.message === "#NoTokenNoEntry") {

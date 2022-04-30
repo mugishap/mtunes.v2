@@ -30,13 +30,13 @@ function Home(props) {
 
     const checkForAccess = async () => {
         try {
-            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
+            let res = await fetch('http://localhost:4040/user/checkForAccess', { method: 'GET', credentials: 'include' })
             res = await res.json()
             // console.log(res)
             setLoader(false)
             if (res.message === "#NoTokenNoEntry") {
                 console.log("Token is not there")
-                window.alert('No token generated!!! Authentication gone wrong')
+                // window.alert('No token generated!!! Authentication gone wrong')
                 window.location.replace('/login')
             }
             else if (res.message === "#FailedToParseToken") {

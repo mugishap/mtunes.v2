@@ -37,7 +37,7 @@ function Signup() {
   }
 
   const logUserIn = async (data) => {
-    const api = await fetch('https://mtunes-backend.herokuapp.com/user/login', {
+    const api = await fetch('http://localhost:4040/user/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -57,36 +57,15 @@ function Signup() {
 
   }
 
-  // if (name === '') {
-  //   const errorDiv = document.createElement('div')
-  //   const errorText = document.createTextNode("Name cannot be empty")
-  //   errorDiv.appendChild(errorText)
-  //   document.querySelector('.name-div').append(errorDiv)
-  // }
-  // else if (username === '') {
-  //   const errorDiv = document.createElement('div')
-  //   const errorText = document.createTextNode("Username cannot be empty")
-  //   errorDiv.appendChild(errorText)
-  //   document.querySelector('.username-div').append(errorDiv)
-  // }
-  // else if (email === '') {
-  //   const errorDiv = document.createElement('div')
-  //   const errorText = document.createTextNode("Email cannot be empty")
-  //   errorDiv.appendChild(errorText)
-  //   document.querySelector('.email-div').append(errorDiv)
-  // }
-  // else if (country === '') {
-  //   const errorDiv = document.createElement('div')
-  //   const errorText = document.createTextNode("Country cannot be empty")
-  //   errorDiv.appendChild(errorText)
-  //   document.querySelector('.country-div').append(errorDiv)
-  // }
-  // else if (password === '') {
-  //   const errorDiv = document.createElement('div')
-  //   const errorText = document.createTextNode("Password is empty!!!")
-  //   errorDiv.appendChild(errorText)
-  //   document.querySelector('.password-div').append(errorDiv)
-  // }
+  if ((name === '') || (username === '') || (country === '') || (email === '') || (password === '')) {
+    const errorDiv = document.createElement('div')
+    const errorText = document.createTextNode("All required fields must be filled")
+    errorDiv.appendChild(errorText)
+    loader ? 
+    document.querySelector('.name-div').append(errorDiv)
+    :
+    console.log('All fields input');
+  }
 
   const handleFormSubmit = async e => {
     e.preventDefault()
@@ -98,7 +77,7 @@ function Signup() {
       setImage('')
       console.log('No profile selected');
     }
-    const api = await fetch('https://mtunes-backend.herokuapp.com/user/newAccount', {
+    const api = await fetch('http://localhost:4040/user/newAccount', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // mode: 'no-cors',
@@ -118,9 +97,10 @@ function Signup() {
     }
     else {
       const errorDiv = document.createElement('div')
-      const errorText = document.createTextNode("User with that username already exists")
+      const errorText = document.createTextNode("User with that username or email already exists")
       errorDiv.appendChild(errorText)
       document.querySelector('.username-div').append(errorDiv)
+      errorDiv.classList.add = 'text-xs'
       setTimeout(() => {
         errorDiv.style.display = 'none'
       }, 2000)
@@ -146,19 +126,19 @@ function Signup() {
             <form className="portrait:block overflow-hidden text-m p-2 w-full h-4/5 items-center justify-center flex flex-col">
               <div className="name-div flex m-1 flex-row items-center justify-center w-full">
                 {/* <label className='w-1/3 h-6 flex justify-left'>Name:</label> */}
-                <input placeholder='Full Name' onChange={(e) => { setName(e.target.value) }} type="text" className='name rounded  bg-gray-200 p-1 w-11/12 h-8' />
+                <input required={true} placeholder='Full Name' onChange={(e) => { setName(e.target.value) }} type="text" className='name rounded  bg-gray-200 p-1 w-11/12 h-8' />
               </div>
-              <div className="username-div flex flex-row items-center justify-center w-full m-1">
+              <div className="username-div flex flex-col items-center justify-center w-full m-1">
                 {/* <label className='w-1/3 h-6 flex justify-left'>Username:</label> */}
-                <input placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} type="text" className='username username-input rounded  bg-gray-200 p-1 w-11/12 h-8' />
+                <input required placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} type="text" className='username username-input rounded  bg-gray-200 p-1 w-11/12 h-8' />
               </div>
               <div className="email-div flex flex-row items-center justify-center w-full m-1">
                 {/* <label className='w-1/3 h-6 flex justify-left'>Email:</label> */}
-                <input placeholder='Email' onChange={(e) => { setEmail(e.target.value) }} type="email" className='email rounded  bg-gray-200 p-1 w-11/12 h-8' />
+                <input required placeholder='Email' onChange={(e) => { setEmail(e.target.value) }} type="email" className='email rounded  bg-gray-200 p-1 w-11/12 h-8' />
               </div>
               <div className=" country-div flex flex-row items-center justify-center w-full m-1">
                 {/* <label className='w-1/3 h-6 flex justify-left'>Country:</label> */}
-                <select id="country" name="country" className='flex items-center justify-center w-11/12' onChange={(e) => { setCountry(e.target.value) }}>
+                <select required id="country" name="country" className='flex items-center justify-center w-11/12' onChange={(e) => { setCountry(e.target.value) }}>
                   <option value="">Select country</option>
                   <option value="Afganistan">Afghanistan</option>
                   <option value="Albania">Albania</option>
@@ -410,12 +390,12 @@ function Signup() {
               </div>
               <div className="password-div flex flex-row justify-center w-full m-1">
                 {/* <label className=' w-1/3 h-6 flex justify-left'>Password:</label> */}
-                <input placeholder='Password' onChange={(e) => { setPassword(e.target.value) }} type="password" className='password rounded  bg-gray-200 p-1 w-11/12 h-8 overflow-hidden' />
+                <input required placeholder='Password' onChange={(e) => { setPassword(e.target.value) }} type="password" className='password rounded  bg-gray-200 p-1 w-11/12 h-8 overflow-hidden' />
               </div>
               <div className="flex flex-col h-36 items-center justify-center w-full">
                 <div className='w-full h-full flex flex-row items-center justify-center'>
                   <label htmlFor='image' className=' w-3/3 h-6 overflow-hidden bg-orange-500 rounded text-white p-1 flex items-center justify-center'>Upload Profile picture</label>
-                  <input id='image' placeholder='Enter' type="file" accept='image/png, image/jpeg' onChange={previewFile} style={{ display: 'none' }} />
+                  <input required id='image' placeholder='Enter' type="file" accept='image/png, image/jpeg' onChange={previewFile} style={{ display: 'none' }} />
                 </div>
                 <div className='overflow-hidden h-36'>
                   {profile ?
@@ -424,14 +404,14 @@ function Signup() {
                     <p className='text-xs h-full overflow-hidden'>NB: If no file chosen then the image below will be your profile pic</p>
                   }
                 </div>
-                <img src={require('./../images/logo1.png')} className='object-center object-cover profile-pic w-1/5 h-72 rounded-full overflow-hidden m-1' alt="" />
+                <img src={require('./../images/logo1.png')} className='object-center object-cover profile-pic w-16 h-72 relative rounded-full overflow-hidden m-1' alt="" />
               </div>
               <div className="flex flex-col items-center w-full justify-center m-1">
                 {
                   loader ?
                     <>
                       <p className='text-sm'>Please wait while you request is being processed</p>
-                      <img className='h-12' src={require('./../images/loader.gif')} alt="" />
+                      <img className='h-12 rounded-full' src={require('./../images/loader.gif')} alt="" />
                     </> :
 
                     <input type="submit" onClick={handleFormSubmit} className='overflow-hidden cursor-pointer submit-btn shadow-2xl w-24 h-8 border-3 p-1 rounded text-white bg-orange-500 border' value="Register" />
