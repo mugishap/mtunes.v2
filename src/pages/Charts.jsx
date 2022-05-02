@@ -78,17 +78,17 @@ function Home() {
         // console.log(songs)
     }, [songs])
     return (
-        <div className="body">
+        <div className="body w-screen">
             <Navbar />
             <Searchbar />
-            <div className='home'>
+            <div className='home grid grid-cols-4 w-full items-center'>
 
                 {shuffle(songs).map((track) => {
                     return (
-                        <Link to={'/song/' + track.key}>
-                            <div key={track.key} className='display p-2 hover:scale-125 flex items-center justify-center'>
-                                <img src={track.images.coverart} className='w-10/12 h-36' alt="" />
-                                <span className='w-4/5 flex items-center justify-start text-left'>{track.share.subject}</span>
+                        <Link to={'/song/' + track.key} className='overflow-hidden w-8/12'>
+                            <div key={track.key} className='display w-full flex items-center overflow-hidden flex-col justify-center'>
+                                <img src={track.images.coverart} className='object-center object-cover w-full  hover:scale-110 h-36 overflow-hidden' alt="" />
+                                <span className='w-4/5 flex items-center justify-start text-left overflow-hidden'>{track.share.subject}</span>
                             </div>
                         </Link>
                     )
