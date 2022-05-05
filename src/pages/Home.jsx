@@ -30,7 +30,7 @@ function Home(props) {
 
     const checkForAccess = async () => {
         try {
-            let res = await fetch('http://localhost:4040/user/checkForAccess', { method: 'GET', credentials: 'include' })
+            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
             res = await res.json()
             // console.log(res)
             setLoader(false)
@@ -66,7 +66,7 @@ function Home(props) {
                     'X-RapidAPI-Host': 'shazam.p.rapidapi.com',
                     'X-RapidAPI-Key': 'a6a50747c6msh3b9df5163dc6c28p1bb422jsn7f9f8d1462fc'
                 },
-                mode: 'no-cors'
+                // mode: 'no-cors'
             }).then(res => res.json())
                 .then(data => {
                     setLoader(false)
@@ -93,7 +93,7 @@ function Home(props) {
                     {shuffle(songs).map((track) => {
                         return (
                             <Link to={'/song/' + track.key} key={track.key} className='overflow-hidden'>
-                                <div className='w-64  display p-2 overflow-hidden flex flex-col items-center justify-center'>
+                                <div className='w-72 display p-2 overflow-hidden flex flex-col items-center justify-center'>
                                     <img src={track.images.coverart} className=' hover:scale-110 object-cover object-center w-4/5 h-36' alt="" />
                                     <span className='w-4/5 mt-1 flex items-center justify-start text-left'>{track.share.subject}</span>
                                 </div>
