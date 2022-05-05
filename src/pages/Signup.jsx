@@ -64,7 +64,7 @@ function Signup() {
     loader ? 
     document.querySelector('.name-div').append(errorDiv)
     :
-    console.log('All fields input');
+    console.log()
   }
 
   const handleFormSubmit = async e => {
