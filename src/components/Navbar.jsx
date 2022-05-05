@@ -27,14 +27,14 @@ function Navbar() {
       </Link>
       <div className="inNav w-1/3">
         <ul className='flex w-full flex-row'>
-          <li className='w-1/4 m-1 text-2xl focus:bg-blue-500'><Link to='/home'>Home</Link></li>
-          <li className='w-1/4 m-1 text-2xl focus:bg-blue-500'><Link to='/charts'>Charts</Link></li>
-          <li className='w-1/4 m-1 text-2xl focus:bg-blue-500'><Link to='/account'>Account</Link></li>
-          <li className='w-1/4 m-1 text-2xl focus:bg-blue-500'><Link to='/about'>About us</Link></li>
+          <li className='w-1/4 m-1 text-xl focus:bg-blue-500'><Link to='/home'>Home</Link></li>
+          <li className='w-1/4 m-1 text-xl focus:bg-blue-500'><Link to='/charts'>Charts</Link></li>
+          <li className='w-1/4 m-1 text-xl focus:bg-blue-500'><Link to='/account'>Account</Link></li>
+          <li className='w-1/4 m-1 text-xl focus:bg-blue-500'><Link to='/about'>About us</Link></li>
         </ul>
       </div>
       <div className="inNav w-1/3 .flex">
-        <Link to='/login'><button onClick={handleLogOut} className='text-2xl bg-orange-500 text-white w-1/3 ml-4 rounded'>Log out</button></Link>
+        <Link to='/login'><button onClick={handleLogOut} className='text-xl bg-orange-500 text-white w-1/3 ml-4 rounded'>Log out</button></Link>
       </div>
       <div className='mr-7'>
         <Link to='/settings'><i className='material-icons cursor-pointer'>settings</i></Link>
