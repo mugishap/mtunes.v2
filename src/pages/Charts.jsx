@@ -5,9 +5,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Searchbar from '../components/Searchbar'
+import Homeloaders from './../Loaders/Homeloaders'
 import './Home.css'
 // require('dotenv').config()
 function Home() {
+    const [loader, setLoader] = useState(true)
+
     function shuffle(array) {
         let currentIndex = array.length, randomIndex;
         while (currentIndex !== 0) {
@@ -24,7 +27,6 @@ function Home() {
             let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
             res = await res.json()
             console.log(res)
-            setLoader(false)
             if (res.message === "#NoTokenNoEntry") {
                 console.log("Token is not there")
                 window.alert('No token generated!!! Authentication gone wrong')
@@ -41,7 +43,6 @@ function Home() {
     }
 
     const [songs, setSongs] = useState([])
-    const [loader, setLoader] = useState(true)
 
     useEffect(() => {
         checkForAccess()
@@ -56,6 +57,7 @@ function Home() {
             // console.log(inLocal);
             setSongs(inLocal.tracks)
             // console.log(songs);
+            setLoader(false)
         }
         else if (check === null) {
             checkForAccess()
@@ -68,9 +70,9 @@ function Home() {
             }).then(res => res.json())
                 .then(data => {
                     setSongs(data.tracks)
-                    setLoader(false)
                     // console.log(songs)
                     localStorage.setItem('chartSongs', JSON.stringify(data))
+                    setLoader(false)
                 })
         }
     }
@@ -81,19 +83,26 @@ function Home() {
         <div className="body w-screen">
             <Navbar />
             <Searchbar />
-            <div className='home grid grid-cols-4 w-full items-center'>
+            {
+                loader ?
+                    <Homeloaders />
+                    :
+                    <div className='home grid grid-cols-4 w-full items-center'>
 
-                {shuffle(songs).map((track) => {
-                    return (
-                        <Link to={'/song/' + track.key} className='overflow-hidden w-8/12'>
-                            <div key={track.key} className='display w-full flex items-center overflow-hidden flex-col justify-center'>
-                                <img src={track.images.coverart} className='object-center object-cover w-full  hover:scale-110 h-36 overflow-hidden' alt="" />
-                                <span className='w-4/5 flex items-center justify-start text-left overflow-hidden'>{track.share.subject}</span>
-                            </div>
-                        </Link>
-                    )
-                })}
-            </div>
+                        {shuffle(songs).map((track) => {
+                            return (
+                                <Link to={'/song/' + track.key} className='overflow-hidden w-8/12'>
+                                    <div key={track.key} className='display w-full flex items-center overflow-hidden flex-col justify-center'>
+                                        <img src={track.images.coverart} className='object-center object-cover w-full  hover:scale-110 h-36 overflow-hidden' alt="" />
+                                        <span className='w-4/5 flex items-center justify-start text-left overflow-hidden'>{track.share.subject}</span>
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                    </div>
+
+            }
+
         </div>
     )
 }
