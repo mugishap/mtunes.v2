@@ -19,18 +19,18 @@ function App() {
     <div className='App flex-col flex justify-between'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={ <Landing/> }></Route>
+          <Route path='/' element={<Home />}></Route>
           <Route path='/404/notfound' element={<Notfound />}></Route>
           <Route path='/song/:id' element={<Song />}></Route>
-          <Route path='/home' element={<Home/>}></Route>
+          <Route path='/home' element={<Home />}></Route>
           <Route path='/about' element={<About />}></Route>
           <Route path='/charts' element={<Charts />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
-          <Route path='/account' element={<Account/>}></Route>
+          <Route path='/account' element={<Account />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/loader' element={<Searchedloader />}></Route>
           <Route path='/search/song/:input' element={<Searched />}></Route>
-          <Route path='/settings' element={<Settings/>}></Route>
+          <Route path='/settings' element={<Settings />}></Route>
           <Route path='*' element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>
