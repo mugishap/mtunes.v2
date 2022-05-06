@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Searchbar from '../components/Searchbar'
 import Homeloaders from './../Loaders/Homeloaders'
+import { checkForAccess } from './check'
 import './Home.css'
-// require('dotenv').config()
+
 function Home() {
     const [loader, setLoader] = useState(true)
 
@@ -22,25 +23,7 @@ function Home() {
 
         return array;
     }
-    const checkForAccess = async () => {
-        try {
-            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
-            res = await res.json()
-            console.log(res)
-            if (res.message === "#NoTokenNoEntry") {
-                console.log("Token is not there")
-                window.alert('No token generated!!! Authentication gone wrong')
-                window.location.replace('/login')
-            }
-            else if (res.message === "#FailedToParseToken") {
-                window.location.replace('/login')
-            } else if (res.message === "#Success") {
-                // window.location.replace('/charts')
-            }
-        } catch (e) {
-            console.log("Error here", e)
-        }
-    }
+
 
     const [songs, setSongs] = useState([])
 

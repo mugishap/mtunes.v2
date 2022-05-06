@@ -3,6 +3,7 @@
 import { React, useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Accountloader from '../Loaders/Accountloader'
+import { checkForAccess } from './check'
 
 function Account(props) {
   const { darkClass, darkHandler } = props
@@ -18,28 +19,6 @@ function Account(props) {
     setTimeout(() => {
       err.style.display = 'none'
     }, 2000)
-  }
-
-
-
-  const checkForAccess = async () => {
-    try {
-      let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
-      res = await res.json()
-      // console.log(res)
-      if (res.message === "#NoTokenNoEntry") {
-        console.log("Token is not there")
-        window.alert('No token generated!!! Authentication gone wrong')
-        window.location.replace('/login')
-    }
-    else if (res.message === "#FailedToParseToken") {
-        window.location.replace('/login')
-    } else if (res.message === "#Success") {
-        // window.location.replace('/account')
-    }
-    } catch (e) {
-      console.log("Error here", e)
-    }
   }
 
 

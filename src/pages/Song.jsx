@@ -5,34 +5,13 @@ import { useParams } from 'react-router-dom'
 import './Song.css'
 import Navbar from '../components/Navbar'
 import Songloader from './../Loaders/Songloader'
+import { checkForAccess } from './check'
+
 function Song() {
     const params = useParams()
     let song = []
     let lyrics = []
     const [loader, setLoader] = useState(true)
-
-
-    const checkForAccess = async () => {
-        try {
-            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
-            res = await res.json()
-            // console.log(res)
-            if (res.message === "#NoTokenNoEntry") {
-                console.log("Token is not there")
-                window.alert('No token generated!!! Authentication gone wrong')
-                window.location.replace('/login')
-            }
-            else if (res.message === "#FailedToParseToken") {
-                window.location.replace('/login')
-            } else if (res.message === "#Success") {
-                // window.location.replace('/home')
-            }
-        } catch (e) {
-            console.log("Error here", e)
-        }
-    }
-
-
 
 
     getSong()

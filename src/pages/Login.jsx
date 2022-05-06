@@ -13,7 +13,7 @@ function Login() {
   const handleFormSubmit = async e => {
     e.preventDefault()
     setLoader(true)
-    await fetch('https://mtunes-backend.herokuapp.com/user/login', {
+    const api = await fetch('https://mtunes-backend.herokuapp.com/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // mode:'no-cors',
@@ -23,18 +23,17 @@ function Login() {
         password: (password)
       })
     })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        if (data.message === "Allowed to continue") {
-          window.location.replace('/home')
+    const data = api.json()
+    console.log(data)
+    if (data.message === "Allowed to continue") {
+      window.location.replace('/home')
+      localStorage.setItem('token', data.token)
+    }
+    else {
+      window.alert("Either password or email is wrong try again please")
+      setLoader(false)
+    }
 
-        }
-        else {
-          window.alert("Either password or email is wrong try again please")
-          setLoader(false)
-        }
-      })
   }
   return (
     <>
