@@ -1,7 +1,7 @@
 
 export async function checkForAccess() {
     try {
-        let res = await fetch('http://localhost:4040/user/checkForAccess', {
+        let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

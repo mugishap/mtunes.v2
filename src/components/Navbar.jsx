@@ -8,7 +8,7 @@ function Navbar() {
 
 
   const handleLogOut = async () => {
-    const api = await fetch('http://localhost:4040/user/logout', {
+    const api = await fetch('https://mtunes-backend.herokuapp.com/user/logout', {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
