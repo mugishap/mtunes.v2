@@ -16,7 +16,6 @@ function Login() {
     const api = await fetch('https://mtunesv2.herokuapp.com/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // mode:'no-cors',
       credentials: 'include',
       body: JSON.stringify({
         email: (email),

@@ -11,11 +11,11 @@ export async function checkForAccess() {
         })
         res = await res.json()
         if (res.message === "#NoTokenNoEntry") {
-            window.alert('No token generated!!! Authentication gone wrong')
+            // window.alert('No token generated!!! Authentication gone wrong')
             window.location.replace('/login')
         }
         else if (res.message === "#FailedToParseToken") {
-            window.alert('Error in parsing token')
+            // window.alert('Error in parsing token')
             window.location.replace('/login')
         }
         else if (res.message === "#Success") {
