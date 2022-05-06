@@ -13,7 +13,7 @@ function Login() {
   const handleFormSubmit = async e => {
     e.preventDefault()
     setLoader(true)
-    const api = await fetch('https://mtunes-backend.herokuapp.com/user/login', {
+    const api = await fetch('http://localhost:4040/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // mode:'no-cors',
@@ -23,7 +23,7 @@ function Login() {
         password: (password)
       })
     })
-    const data = api.json()
+    const data = await api.json()
     console.log(data)
     if (data.message === "Allowed to continue") {
       window.location.replace('/home')
