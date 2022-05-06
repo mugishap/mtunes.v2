@@ -6,6 +6,7 @@ import { useParams, Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Searchbar from '../components/Searchbar'
 import Searchedloader from '../Loaders/Searchedloader'
+import { checkForAccess } from './check'
 
 // require('dotenv').config()
 function Searched() {
@@ -18,28 +19,6 @@ function Searched() {
         setLoader(true)
         getResults()
     }, [params.input])
-    const checkForAccess = async () => {
-        try {
-            let res = await fetch('https://mtunes-backend.herokuapp.com/user/checkForAccess', { method: 'GET', credentials: 'include' })
-            res = await res.json()
-            console.log(res)
-            setLoader(false)
-            if (res.message === "#NoTokenNoEntry") {
-                console.log("Token is not there")
-                window.alert('No token generated!!! Authentication gone wrong')
-                window.location.replace('/login')
-            }
-            else if (res.message === "#FailedToParseToken") {
-                window.location.replace('/login')
-            } else if (res.message === "#Success") {
-                // window.location.replace('/home')
-            }
-        } catch (e) {
-            console.log("Error here", e)
-        }
-    }
-
-
 
     useEffect(() => {
         getResults()

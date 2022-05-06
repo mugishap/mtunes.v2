@@ -1,5 +1,7 @@
 import React from 'react'
 import Navbar from './../components/Navbar'
+import { checkForAccess } from './check'
+
 function Settings() {
   return (
     <div className='flex flex-col w-screen h-96'>
