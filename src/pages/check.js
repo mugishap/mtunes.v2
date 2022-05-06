@@ -15,8 +15,8 @@ export async function checkForAccess() {
             window.location.replace('/login')
         }
         else if (res.message === "#FailedToParseToken") {
+            window.alert('Error in parsing token')
             window.location.replace('/login')
-
         }
         else if (res.message === "#Success") {
             window.location.replace('/home')

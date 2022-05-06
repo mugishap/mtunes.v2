@@ -3,6 +3,7 @@ import Navbar from './../components/Navbar'
 import { checkForAccess } from './check'
 
 function Settings() {
+  checkForAccess()
   return (
     <div className='flex flex-col w-screen h-96'>
       <Navbar />
