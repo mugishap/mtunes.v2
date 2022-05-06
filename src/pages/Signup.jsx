@@ -37,7 +37,7 @@ function Signup() {
   }
 
   const logUserIn = async (data) => {
-    const api = await fetch('https://mtunes-backend.herokuapp.com/user/login', {
+    const api = await fetch('https://mtunesv2.herokuapp.com//user/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -77,7 +77,7 @@ function Signup() {
       setImage('')
       console.log('No profile selected');
     }
-    const api = await fetch('https://mtunes-backend.herokuapp.com/user/newAccount', {
+    const api = await fetch('https://mtunesv2.herokuapp.com//user/newAccount', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // mode: 'no-cors',
