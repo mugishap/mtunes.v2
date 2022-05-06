@@ -81,7 +81,7 @@ return (
                                 return (
                                     <Link to={'/song/' + hit.track.key} className="w-full">
                                         <div key={hit.track.key} className="  h-2/3 flex items-center  w-4/5 content-start justify-start flex-row bg-slate-400 text-white pl-10 pr-24 m-2 rounded-l shadow-2xl ">
-                                            <div className="image w-1/2 m-4"><img className='border-white border-8 rounded-l w-48 h-1/3' src={hit.track.images.coverart} alt="" /></div>
+                                            <div className="image w-1/2 m-4"><img className='border-white border-8 rounded-l w-48 h-3/3' src={hit.track.images.coverart} alt="" /></div>
                                             <div className='description w-50 flex flex-col items-center content-between'>
                                                 <form className='w-full h-full flex text-l font-bold flex-col'>
                                                     <div className='flex w-full justify-between items-center flex-row'>

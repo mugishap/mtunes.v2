@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, React } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import './Song.css'
 import Navbar from '../components/Navbar'
 import Songloader from './../Loaders/Songloader'
@@ -12,7 +12,7 @@ function Song() {
     let song = []
     let lyrics = []
     const [loader, setLoader] = useState(true)
-
+    const [playUrl, setPlayUrl] = useState('')
 
     getSong()
 
@@ -29,7 +29,6 @@ function Song() {
         }
 
         else {
-            // console.log("check is null")
             checkForAccess()
             const api = await fetch(`https://shazam.p.rapidapi.com/songs/get-details?key=${params.id}&locale=en-US`, {
                 method: 'GET',
@@ -68,6 +67,47 @@ function Song() {
         document.querySelector('input[name=released]').value = song.sections[0].metadata[2].text
 
         song.genres.primary ? document.querySelector('input[name=genres]').textContent = song.genres.primary : document.querySelector('input[name=genres]').value = "Unclassified"
+        let option;
+        if (song) {
+            if (song.sections[1] && song.sections[2]) {
+                option = song.sections[2]
+            }
+            else if (song.sections[1] || song.sections[2]) {
+                option = song.sections[2]
+            }
+        }
+        const playSong = async (identification) => {
+            const string = '/url/' + identification
+            const check = localStorage.getItem(string)
+            // if (string != null) {
+            //     const url = localStorage.getItem(string)
+            //     setUrl(url)
+            //     console.log(url)
+            // }
+            // else {
+
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Host': 'youtube-video-download-info.p.rapidapi.com',
+                    'X-RapidAPI-Key': '4d3efa6d60mshe9647b4fc7ea6dbp1bf6dajsn7de302358e22'
+                }
+            };
+            const api = await fetch(`https://youtube-video-download-info.p.rapidapi.com/dl?id=${identification}`, options)
+            const data = await api.json()
+            console.log(data.link[17][0])
+            const name = '/url/' + identification;
+            setPlayUrl(data.link[251][0])
+            localStorage.setItem(name, playUrl)
+            // }
+        }
+        if (option) {
+            const link = JSON.stringify(option.youtubeurl.image.url)
+            const id = link.match(/(vi\/)(\w+)(\/)/g)[0].slice(3, -1)
+            console.log(id)
+
+            playSong(id)
+        }
     }
     return (
         <div>
@@ -111,6 +151,15 @@ function Song() {
                                 <img alt="" width={100} className="artist-image rounded-full" />
                                 <span className='name-desc'></span>
                             </div>
+                        </div>
+                        <div className="player w-full">
+                            {/* <audio controls crossOrigin autoPlay>
+                                <source src='https://one.123berlin.xyz/dl.php?url=J01SJXPeIzh9nVgCcO8KWfza%2BEDarMUGBvhFV3EbydwRspx6venYFjTHWxk%2BB%2BZ1fG6qlhHVa6d33Rr6qwQxcP2aQgEKrUjJNibeQRUXR7bqsiifp%2FwcYeeVpeFzejtaTi4DFwxsxrsAWtNMsd5qmdoeJ7LNv9fuv%2F4cq5pRxmbFmmLXgi9WbZEivTYTbiK0NiiTP9cxDi2YYbvTzwBb8OzD9E5GL0m8nt%2BXAkZ77Bhg1bdX9Y%2B%2BgLUkBx4HmG1UdXeFL7K0A%2Bk9wVq5x4deo8%2FjZBMtfd0EVIgzHpAp5u2NdfNvdLH55jJkx34us272SXHXc2shYqRE2Oblao8vN3fe3ftBuZwxHWn%2BccDDSMhnSWKcNgJxmx7ipyWND86gaqNLOY1K7mMqXtWLUihBRQVPgEunp4JoLooZkXLHokBo4NkaPO7hruTKuTILz9CoAQ8H6nHC1lEeU%2BdLnjKnBra%2F6jvpuxjoDHPwJqyw0b9%2FqJdj1Klf3%2FprCcLjyIHx7wZn6XJ%2BVisybYNTr7xl0FnPsC0JQA9R9%2BEcLBhTku%2Fw%2FjA4FaIw1F8k%2FItpALilYyTw51RM%2F%2BmE6JtceH47xNC%2BzT75QMB0yYRU8Cho9Aab0BVizQL55rVzshMXjDIVJPn3d22iLIQjoglBsZe%2Fj3fjBAa6FbRuqpcVg9ZaF2ZgaM2Ie%2FqfNYrSqeIy3SxDij%2FvCGYCqEPmIak2RVZlNwNi%2BD339XR6aZY2ZKEGDsPCUPdc%2BVliZX%2B5U7aDqFdMsNcdvWI%2Fp0yqsh2vMSZtTDVDIT71qisrJ2bKj9ImFGGx1hdm6QQFRkrq0Wd0yvVmL%2Fhbk%2BKEWjzmPbKCDUizwJoTDL0WSktyBe%2FBuSvpVUBJixuiljcu4OcCMEDbyT%2FSezb0qDsX5t2CvOuEAlS5sbrkzBd1Ruh3tJ%2BVVu61Huq%2FGYS4z%2FMu2%2BnFzvsyfjGnsx1b5TriQqalcMlx9bzt%2BddDRxaj3Ywo2X7pKaX4cSGt233DwVzn%2B%2BhqI2p6iXib%2F%2BFZoNUTYfDHrUqxiZqY3T3FZ0d9Z4hy80xwi6XjU3NdHsNwAP5DlX9KUUBAGqp6tTu2ubZ3rVWW9LBVYb3dKpfZOAfPRLsgfsCIPPqe6wSotGptGZfibSZWA%2FbgTPmjMpTrRPRaDW5nQmfNWqPjgeU8ihpTr7ZF45M%3D&i=251' />
+                            </audio> */}
+                            <a target='_blank' href={playUrl} rel="noreferrer">
+                                <button className='p-2 rounded bg-orange-500 w-24 m-1 text-white text-lg'>Play</button>
+                            </a>
+                            {/* <iframe width="560" height="315" src={playUrl} title={song.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
                         </div>
                         <div className="lyrics">
                             <p className="text-sm">If lyrics aren't visible try refreshing please!!</p>

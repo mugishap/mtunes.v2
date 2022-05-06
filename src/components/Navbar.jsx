@@ -8,12 +8,15 @@ function Navbar() {
 
 
   const handleLogOut = async () => {
-    await fetch('http://localhost:4040/user/logout', {
+    const api = await fetch('http://localhost:4040/user/logout', {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-    }).then(res => res.json())
-      .then((data) => { console.log(data); window.location.replace('/login') })
+    })
+    const data = await api.json()
+    localStorage.removeItem('token')
+    console.log(data)
+    window.location.replace('/login')
   }
   //Just a stupid comment
   return (
