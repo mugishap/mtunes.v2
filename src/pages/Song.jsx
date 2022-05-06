@@ -95,7 +95,7 @@ function Song() {
             };
             const api = await fetch(`https://youtube-video-download-info.p.rapidapi.com/dl?id=${identification}`, options)
             const data = await api.json()
-            console.log(data.link[17][0])
+            //console.log(data.link[17][0])
             const name = '/url/' + identification;
             setPlayUrl(data.link[251][0])
             localStorage.setItem(name, playUrl)
@@ -104,7 +104,7 @@ function Song() {
         if (option) {
             const link = JSON.stringify(option.youtubeurl.image.url)
             const id = link.match(/(vi\/)(\w+)(\/)/g)[0].slice(3, -1)
-            console.log(id)
+            //console.log(id)
 
             playSong(id)
         }

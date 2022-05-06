@@ -15,7 +15,7 @@ function Navbar() {
     })
     const data = await api.json()
     localStorage.removeItem('token')
-    console.log(data)
+    //console.log(data)
     window.location.replace('/login')
   }
   //Just a stupid comment

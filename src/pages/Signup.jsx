@@ -26,7 +26,7 @@ function Signup() {
     reader.addEventListener("load", function () {
       // convert image file to base64 string
       preview.src = reader.result;
-      console.log(reader.result);
+      //console.log(reader.result);
       setImage(reader.result)
       setProfile(true)
     }, false);
@@ -47,7 +47,7 @@ function Signup() {
       })
     })
     const res = await api.json()
-    console.log(res);
+    //console.log(res);
     if (res.message === "Allowed to continue") {
       checkForAccess()
     }
@@ -72,10 +72,10 @@ function Signup() {
     setLoader(true)
     // console.log(name, username, email, country, password);
 
-    console.log(image);
+    //console.log(image);
     if (image === "") {
       setImage('')
-      console.log('No profile selected');
+      //console.log('No profile selected');
     }
     const api = await fetch('https://mtunesv2.herokuapp.com/user/newAccount', {
       method: 'POST',
