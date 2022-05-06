@@ -93,6 +93,7 @@ function Signup() {
     const data = await api.json()
     // console.log(data);
     if (data.message === "Account created") {
+      console.log(data.user,data.email)
       logUserIn(data.user)
     }
     else {
