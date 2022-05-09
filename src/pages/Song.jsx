@@ -174,7 +174,7 @@ function Song() {
                             </audio> */}
                             {
                                 playUrl === '' ?
-                                    <p className='m-3'>Playback not available</p>
+                                    <img className='rounded-full' src={require('./../images/loader.svg')} alt="" />
                                     :
                                     <a target='_blank' href={playUrl} rel="noreferrer">
                                         <button className='p-2 rounded bg-orange-500 w-24 m-1 text-white text-lg'>Play</button>
