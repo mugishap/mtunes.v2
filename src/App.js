@@ -32,6 +32,7 @@ function App() {
           <Route path='/loader' element={<Searchedloader />}></Route>
           <Route path='/search/song/:input' element={<Searched />}></Route>
           <Route path='/settings' element={<Settings />}></Route>
+          {/* <Route path='/artist/' element={<Settings />}></Route> */}
           <Route path='*' element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>

@@ -76,7 +76,7 @@ function Home(props) {
                             <Link to={'/song/' + track.key} key={track.key} className='overflow-hidden'>
                                 <div className='w-72 display p-2 overflow-hidden flex flex-col items-center justify-center'>
                                     <img src={track.images.coverart} className=' hover:scale-110 object-cover object-center w-4/5 h-36' alt="" />
-                                    <span className='w-4/5 mt-1 flex items-center justify-start text-left'>{track.share.subject}</span>
+                                    <span className='w-4/5 mt-1 flex items-center justify-start text-left break-words'>{track.share.subject}</span>
                                 </div>
                             </Link>
                         )

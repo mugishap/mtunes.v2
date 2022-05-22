@@ -74,10 +74,10 @@ function Home() {
 
                         {shuffle(songs).map((track) => {
                             return (
-                                <Link to={'/song/' + track.key} className='overflow-hidden w-8/12'>
-                                    <div key={track.key} className='display w-full flex items-center overflow-hidden flex-col justify-center'>
-                                        <img src={track.images.coverart} className='object-center object-cover w-full  hover:scale-110 h-36 overflow-hidden' alt="" />
-                                        <span className='w-4/5 flex items-center justify-start text-left overflow-hidden'>{track.share.subject}</span>
+                                <Link key={track.key} to={'/song/' + track.key} className='overflow-hidden w-8/12 max-h-fit'>
+                                    <div className='display w-full flex items-center overflow-hidden flex-col justify-center'>
+                                        <img src={track.images.coverart} className='object-center object-cover w-full  hover:scale-110 h-36' alt="" />
+                                        <span title={track.share.subject} className='w-4/5 flex items-center justify-start text-left overflow-hidden whitespace-pre'>{track.share.subject}</span>
                                     </div>
                                 </Link>
                             )
