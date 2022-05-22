@@ -43,7 +43,6 @@ function Song() {
       song = data;
       const string = "song" + params.id;
       localStorage.setItem(string, JSON.stringify(data));
-      setLoader(false);
     }
     PopulateForm();
   }
@@ -74,79 +73,78 @@ function Song() {
           .querySelector(".artist-image")
           .setAttribute("src", song.images.background)
       : document
-          .querySelector(".artist-image")
-          .setAttribute(
-            "src",
-            "https://us.123rf.com/450wm/roxanabalint/roxanabalint1701/roxanabalint170100138/69079014-not-available-grunge-rubber-stamp-on-white-background-vector-illustration.jpg?ver=6"
-          );
-    song.key
+      .querySelector(".artist-image")
+      .setAttribute(
+        "src",
+        "https://us.123rf.com/450wm/roxanabalint/roxanabalint1701/roxanabalint170100138/69079014-not-available-grunge-rubber-stamp-on-white-background-vector-illustration.jpg?ver=6"
+        );
+        song.key
       ? document.querySelector(".description").setAttribute("key", song.key)
       : document
-          .querySelector(".description")
-          .setAttribute("key", Math.floor(Math.random() * 999999));
-    lyrics
+      .querySelector(".description")
+      .setAttribute("key", Math.floor(Math.random() * 999999));
+      lyrics
       ? (document.querySelector(".text").innerHTML = lyrics.map((line) => {
-          return line + `<br>`;
-        }))
+        return line + `<br>`;
+      }))
       : (document.querySelector(".text").textContent = "NO LYRICS AVAILABLE");
 
     /* song.subtitle ? */ document.querySelector(
       "input[name=nameOfSubtitle"
-    ).value =
+      ).value =
       song.subtitle; /* : document.querySelector('input[name=nameOfSubtitle').textContent = "Not available" */
-    document.querySelector(".name-desc").textContent = song.sections[2].name;
-    document.querySelector("input[name=released]").value =
+      document.querySelector(".name-desc").textContent = song.sections[2].name;
+      document.querySelector("input[name=released]").value =
       song.sections[0].metadata[2].text;
-
-    song.genres.primary
+      
+      song.genres.primary
       ? (document.querySelector("input[name=genres]").textContent =
-          song.genres.primary)
+      song.genres.primary)
       : (document.querySelector("input[name=genres]").value = "Unclassified");
-    let option;
-    if (song) {
-      // console.log(song);
-      if (song.sections[1].type === "VIDEO") {
-        option = song.sections[1];
-      } else if (song.sections[2].type === "VIDEO") {
-        option = song.sections[2];
-      } else if (song.sections[3].type === "VIDEO") {
-        option = song.sections[3];
-      } else if (song.sections[4].type === "VIDEO") {
-        option = song.sections[4];
-      } else if (song.sections[5].type === "VIDEO") {
-        option = song.sections[5];
-      }
+      let option;
+      if (song) {
+        // console.log(song);
+        if (song.sections[1].type === "VIDEO") {
+          option = song.sections[1];
+        } else if (song.sections[2].type === "VIDEO") {
+          option = song.sections[2];
+        } else if (song.sections[3].type === "VIDEO") {
+          option = song.sections[3];
+        } else if (song.sections[4].type === "VIDEO") {
+          option = song.sections[4];
+        } else if (song.sections[5].type === "VIDEO") {
+          option = song.sections[5];
+        }
 
-      // console.log(playUrl, window.location.href);
+        // console.log(playUrl, window.location.href);
     }
     const playSong = async (identification) => {
       const string = "/url/" + identification;
       const check = localStorage.getItem(string);
-      // if (string != null) {
-      //     const url = localStorage.getItem(string)
-      //     setUrl(url)
-      //     console.log(url)
-      // }
-      // else {
-
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Host": "youtube-video-download-info.p.rapidapi.com",
-          "X-RapidAPI-Key":
-            "4d3efa6d60mshe9647b4fc7ea6dbp1bf6dajsn7de302358e22",
-        },
-      };
-      const api = await fetch(
-        `https://youtube-video-download-info.p.rapidapi.com/dl?id=${identification}`,
-        options
-      );
-      const data = await api.json();
-      //console.log(data.link[17][0])
-      const name = "/url/" + identification;
-      setPlayUrl(data.link[251][0]);
-      localStorage.setItem(name, playUrl);
-      // }
+      if (check != null) {
+        const url = localStorage.getItem(string);
+        setPlayUrl(url);
+        // console.log(url);
+      } else {
+        const options = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Host": "youtube-video-download-info.p.rapidapi.com",
+            "X-RapidAPI-Key":
+              "4d3efa6d60mshe9647b4fc7ea6dbp1bf6dajsn7de302358e22",
+          },
+        };
+        const api = await fetch(
+          `https://youtube-video-download-info.p.rapidapi.com/dl?id=${identification}`,
+          options
+        );
+        const data = await api.json();
+        //console.log(data.link[17][0])
+        const name = "/url/" + identification;
+        setPlayUrl(data.link[251][0]);
+        localStorage.setItem(name, playUrl);
+        // }
+      }
     };
     if (option) {
       const link = JSON.stringify(option.youtubeurl.image.url);
@@ -155,7 +153,9 @@ function Song() {
 
       playSong(id);
     }
+    setLoader(false);
   }
+
   return (
     <div>
       <Navbar />
@@ -231,15 +231,14 @@ function Song() {
                 </div>
               </form>
             </div>
-            <Link to={`/artist/`}>
-              <div className="artist w-1/4 flex-col flex items-center justify-center">
+            <Link className="w-1/3 h-full" to={`/artist/${song.subtitle}`}>
+              <div className="artist w-full flex-col flex items-center justify-center">
                 <img alt="" width={100} className="artist-image rounded-full" />
                 <span className="name-desc"></span>
               </div>
             </Link>
           </div>
           <div className="player w-full">
-
             {playUrl === "" ? (
               <img
                 className="rounded-full"
