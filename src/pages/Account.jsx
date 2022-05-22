@@ -1,14 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unreachable */
 import { React, useState, useEffect } from "react";
+import swal from "sweetalert";
 import Navbar from "../components/Navbar";
 import Accountloader from "../Loaders/Accountloader";
 import { checkForAccess } from "./check";
 
-function Account(props) {
-  const { darkClass, darkHandler } = props;
+function Account() {
   const [user, setUser] = useState();
   const [loader, setLoader] = useState(true);
+  const [prevPassword, setPrevPassword] = useState({});
+  const [username,setUsername] = useState('')
+  const [name,setName] = useState('')
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  const [country,setCountry] = useState('')
+  const [updating,setIsUpdating] = useState(false)
 
   const append = () => {
     const err = document.createElement("div");
@@ -23,13 +29,29 @@ function Account(props) {
 
   useEffect(() => {
     checkForAccess();
-    const data = JSON.parse(localStorage.getItem("userInfo"));
+    const data = JSON.parse(localStorage.getItem("mTunesUserProfile"));
     setUser(data);
     setLoader(false);
   }, []);
 
-  const handleUpdateForm = (e) => {
+  const handleUpdateForm = async(e) => {
     e.preventDefault();
+    swal("Error", "Feature not yet available", "error", {
+      buttons: false,
+      timer: 1500,
+    });
+    return
+    // eslint-disable-next-line no-unused-vars
+    const api = await fetch('http://localhost:4040/user/updateUser/' + user._id,{
+      method:'PUT',
+      body:JSON.stringify({
+        username:username,
+        name:name,
+        email:email,
+        country:country,
+        password:password,
+      })
+    })
   };
   return (
     <>
@@ -38,8 +60,12 @@ function Account(props) {
         <Accountloader />
       ) : (
         <div>
-          <div>
-            <img src={user.secureUrl} alt="" />
+          <div className="flex items-center justify-center flex-col">
+            <img
+              src={user.secureUrl}
+              className="w-1/12 h-1/12 rounded-full"
+              alt=""
+            />
 
             <div>
               <form onSubmit={handleUpdateForm}>
@@ -49,7 +75,7 @@ function Account(props) {
                     readOnly={true}
                     type="text"
                     value={user.name}
-                    className="overflow-hidden w-3/5 bg-slate-100 rounded p-1"
+                    className="overflow-hidden w-3/5  rounded p-1"
                   />
                 </div>
                 <div className="labels flex flex-row items-center justify-between m-3 overflow-hidden">
@@ -58,7 +84,7 @@ function Account(props) {
                     readOnly={true}
                     type="text"
                     value={user.username}
-                    className="overflow-hidden w-3/5 bg-slate-100 rounded p-1"
+                    className="overflow-hidden w-3/5  rounded p-1"
                   />
                 </div>
                 <div className="labels flex flex-row items-center justify-between m-3 overflow-hidden">
@@ -67,7 +93,7 @@ function Account(props) {
                     readOnly={true}
                     type="text"
                     value={user.email}
-                    className="overflow-hidden w-3/5 bg-slate-100 rounded p-1"
+                    className="overflow-hidden w-3/5  rounded p-1"
                   />
                 </div>
                 <div className="labels flex flex-row items-center justify-between m-3 overflow-hidden">
@@ -76,7 +102,7 @@ function Account(props) {
                     readOnly={true}
                     type="text"
                     value={user.country}
-                    className="overflow-hidden w-3/5 bg-slate-100 rounded p-1"
+                    className="overflow-hidden w-3/5  rounded p-1"
                   />
                 </div>
                 <div className="labels flex flex-row items-center justify-center m-3 overflow-hidden">
