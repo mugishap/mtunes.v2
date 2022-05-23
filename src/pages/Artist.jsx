@@ -16,14 +16,20 @@ function Artist() {
       }
     );
     const data = await api.json();
-    localStorage.setItem(`artist/${query.artist}`)
+    localStorage.setItem(`artist/${query.artist}`);
     console.log(data);
-    setArtist(data)
+    setArtist(data);
   };
   useEffect(() => {
     getArtist();
   });
-  return <div></div>;
+  return (
+    <div>
+      <div className="bg-grey-200 rounded-md m-2 p-3 felx felx-col                                                                                        items-center">
+
+      </div>
+    </div>
+  );
 }
 
 export default Artist;

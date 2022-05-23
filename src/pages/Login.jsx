@@ -47,7 +47,7 @@ function Login() {
     <>
       {login ? (
         <div className="h-[90vh] w-screen flex justify-center items-center">
-          <div className="w-1/3 h-2/3  shadow-2xl shadow-black ">
+          <div className="w-3/12 h-2/3  shadow-2xl shadow-black ">
             <form
               className="w-full h-full flex flex-col items-center justify-center"
               onSubmit={handleFormSubmit}
@@ -61,7 +61,8 @@ function Login() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                className="w-8/12 mb-32"
+                sx={{marginBottom:'10px'}}
+                className="w-10/12 mb-32"
               />
               <TextField
                 onChange={(e) => {
@@ -71,7 +72,7 @@ function Login() {
                 id="outlined-basic"
                 label="Password"
                 variant="standard"
-                className="w-8/12"
+                className="w-10/12"
                 type="password"
               />
               {loader ? (

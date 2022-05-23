@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, React } from "react";
+import { useState, React, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./Song.css";
 import Navbar from "../components/Navbar";
@@ -10,21 +10,19 @@ import { checkForAccess } from "./check";
 function Song() {
   checkForAccess();
   const params = useParams();
-  let song = [];
-  let lyrics = [];
+
   const [loader, setLoader] = useState(true);
   const [playUrl, setPlayUrl] = useState("");
+  const [song, setSong] = useState({});
+  const [lyrics, setLyrics] = useState([]);
+const [avatar,setAvatar] = useState('')
 
-  getSong();
-
-  async function getSong() {
+  const getSong = async () => {
     const string = "song" + params.id;
     const check = localStorage.getItem(string);
     if (check != null) {
       const inLocal = await JSON.parse(check);
-      song = inLocal;
-      console.log(song);
-      lyrics = song.sections[1].text;
+      setSong(inLocal);
       setLoader(false);
     } else {
       const api = await fetch(
@@ -40,122 +38,20 @@ function Song() {
       );
       const data = await api.json();
       console.log(data);
-      song = data;
+      setSong(data);
       const string = "song" + params.id;
       localStorage.setItem(string, JSON.stringify(data));
+      if (data.sections[1].type === "LYRICS") setLyrics(data.sections[1].text);
+      if(data.sections[2].type ==='ARTIST') setAvatar(data.sections[2].avatar)
+      if(data.sections[3].type ==='ARTIST') setAvatar(data.sections[3].avatar)
+      console.log(data.sections[2].avatar)
+      setLoader(false);
     }
-    PopulateForm();
-  }
+  };
 
-  async function PopulateForm() {
-    //Setting the name of the song
-    document.querySelector("input[name=nameOfSong").value = await song.title;
-    //Setting the name of the artist
-    song.sections[2].name
-      ? (document.querySelector("input[name=nameOfArtist").value =
-          song.sections[2].name)
-      : (document.querySelector("input[name=nameOfArtist").value =
-          song.subtitle);
-    //Setting coverart
-    song.images.coverart
-      ? document
-          .querySelector(".song-image")
-          .setAttribute("src", song.images.coverart)
-      : document
-          .querySelector(".song-image")
-          .setAttribute(
-            "src",
-            "https://us.123rf.com/450wm/roxanabalint/roxanabalint1701/roxanabalint170100138/69079014-not-available-grunge-rubber-stamp-on-white-background-vector-illustration.jpg?ver=6"
-          );
-    //Setting background of artist
-    song.images.background
-      ? document
-          .querySelector(".artist-image")
-          .setAttribute("src", song.images.background)
-      : document
-      .querySelector(".artist-image")
-      .setAttribute(
-        "src",
-        "https://us.123rf.com/450wm/roxanabalint/roxanabalint1701/roxanabalint170100138/69079014-not-available-grunge-rubber-stamp-on-white-background-vector-illustration.jpg?ver=6"
-        );
-        song.key
-      ? document.querySelector(".description").setAttribute("key", song.key)
-      : document
-      .querySelector(".description")
-      .setAttribute("key", Math.floor(Math.random() * 999999));
-      lyrics
-      ? (document.querySelector(".text").innerHTML = lyrics.map((line) => {
-        return line + `<br>`;
-      }))
-      : (document.querySelector(".text").textContent = "NO LYRICS AVAILABLE");
-
-    /* song.subtitle ? */ document.querySelector(
-      "input[name=nameOfSubtitle"
-      ).value =
-      song.subtitle; /* : document.querySelector('input[name=nameOfSubtitle').textContent = "Not available" */
-      document.querySelector(".name-desc").textContent = song.sections[2].name;
-      document.querySelector("input[name=released]").value =
-      song.sections[0].metadata[2].text;
-      
-      song.genres.primary
-      ? (document.querySelector("input[name=genres]").textContent =
-      song.genres.primary)
-      : (document.querySelector("input[name=genres]").value = "Unclassified");
-      let option;
-      if (song) {
-        // console.log(song);
-        if (song.sections[1].type === "VIDEO") {
-          option = song.sections[1];
-        } else if (song.sections[2].type === "VIDEO") {
-          option = song.sections[2];
-        } else if (song.sections[3].type === "VIDEO") {
-          option = song.sections[3];
-        } else if (song.sections[4].type === "VIDEO") {
-          option = song.sections[4];
-        } else if (song.sections[5].type === "VIDEO") {
-          option = song.sections[5];
-        }
-
-        // console.log(playUrl, window.location.href);
-    }
-    const playSong = async (identification) => {
-      const string = "/url/" + identification;
-      const check = localStorage.getItem(string);
-      if (check != null) {
-        const url = localStorage.getItem(string);
-        setPlayUrl(url);
-        // console.log(url);
-      } else {
-        const options = {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Host": "youtube-video-download-info.p.rapidapi.com",
-            "X-RapidAPI-Key":
-              "4d3efa6d60mshe9647b4fc7ea6dbp1bf6dajsn7de302358e22",
-          },
-        };
-        const api = await fetch(
-          `https://youtube-video-download-info.p.rapidapi.com/dl?id=${identification}`,
-          options
-        );
-        const data = await api.json();
-        //console.log(data.link[17][0])
-        const name = "/url/" + identification;
-        setPlayUrl(data.link[251][0]);
-        localStorage.setItem(name, playUrl);
-        // }
-      }
-    };
-    if (option) {
-      const link = JSON.stringify(option.youtubeurl.image.url);
-      const id = link.match(/(vi\/)(\w+)(\/)/g)[0].slice(3, -1);
-      // console.log(id)
-
-      playSong(id);
-    }
-    setLoader(false);
-  }
-
+  useEffect(() => {
+    getSong();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -169,6 +65,7 @@ function Song() {
                 <img
                   className="rounded-2xl song-image w-11/12 h-11/12 overflow-hidden cursor-pointer m-1"
                   alt=""
+                  src={song.images.coverart}
                 />
               </div>
             </div>
@@ -181,7 +78,7 @@ function Song() {
                     type="text"
                     readOnly={true}
                     className="name bg-none m-2 w-1/2 p-0.5"
-                    value=""
+                    value={song.title}
                     name="nameOfSong"
                   />
                 </div>
@@ -192,7 +89,7 @@ function Song() {
                     type="text"
                     readOnly={true}
                     className="p-0.5 bg-none m-2 w-1/2"
-                    value=""
+                    value={song.subtitle}
                     name="nameOfArtist"
                   />
                 </div>
@@ -203,7 +100,7 @@ function Song() {
                     type="text"
                     readOnly={true}
                     className="p-0.5 bg-none  w-1/2 m-2"
-                    value=""
+                    value={song.subtitle}
                     name="nameOfSubtitle"
                   />
                 </div>
@@ -214,7 +111,7 @@ function Song() {
                     type="text"
                     readOnly={true}
                     className="p-0.5 bg-none m-2 w-1/2"
-                    value=""
+                    value={song.genres.primary}
                     name="genres"
                   />
                 </div>
@@ -225,15 +122,20 @@ function Song() {
                     type="text"
                     readOnly={true}
                     className="p-0.5 bg-none m-2 w-1/2"
-                    value=""
+                    value={song.sections[0].metadata[2].text}
                     name="released"
                   />
                 </div>
               </form>
             </div>
-            <Link className="w-1/3 h-full" to={`/artist/${song.subtitle}`}>
+            <Link className="w-1/3 h-full" to={`/artist/details/${song.subtitle}`}>
               <div className="artist w-full flex-col flex items-center justify-center">
-                <img alt="" width={100} className="artist-image rounded-full" />
+                <img
+                  alt=""
+                  src={avatar}
+                  width={100}
+                  className="artist-image rounded-full"
+                />
                 <span className="name-desc"></span>
               </div>
             </Link>
@@ -252,13 +154,16 @@ function Song() {
                 </button>
               </a>
             )}
-            {/* <iframe width="560" height="315" src={playUrl} title={song.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
           </div>
           <div className="lyrics">
-            <p className="text-sm">
-              If lyrics aren't visible try refreshing please!!
-            </p>
             <h2 className="text-xl font-bold">Lyrics</h2>
+            {lyrics ? (
+              lyrics.map((line) => {
+                return <div>{line}</div>;
+              })
+            ) : (
+              <p className="text-sm">Lyrics not available!!</p>
+            )}
             <div className="text h-100"></div>
           </div>
         </>
