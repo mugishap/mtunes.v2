@@ -16,7 +16,7 @@ function Landing() {
                 </div>
                 <div className="flex text-lg items-center w-1/3 justify-center ">
                     <ul className="flex items-center justify-center">
-                        <li className="p-3 hover:text-purple-600 cursor-pointer font-[500]">Key Benefits</li>
+                        <li className="p-3 hover:text-purple-600 cursor-pointer font-[500] whitespace-nowrap">Key Benefits</li>
                         <li className="p-3 hover:text-purple-600 cursor-pointer font-[500]">Testimonials</li>
                         <li className="p-3 hover:text-purple-600 cursor-pointer font-[500]">Features</li>
                         <li className="p-3 hover:text-purple-600 cursor-pointer font-[500]">Pricing</li>
@@ -33,7 +33,7 @@ function Landing() {
                             Everything</span>
                     </div>
                     <div className="w-1/2 h-full flex items-center justify-center">
-                        <img className="hover:rotate-12 rounded-md" src={require("./../images/hero.png")} alt="" />
+                        <img className="hover:rotate-3 rounded-md" src={require("./../images/hero.png")} alt="" />
                     </  div>
                 </div>
                 <div className="benefits w-full">
@@ -71,7 +71,7 @@ function Landing() {
                 </div>
                 <div className="mt-16 flex items-center justify-center w-full">
                     <div className="w-1/2 flex items-center justify-center">
-                        <img className="hover:-rotate-12" src={require("./../images/app-features.png")} alt="" />
+                        <img className="hover:-rotate-3" src={require("./../images/app-features.png")} alt="" />
                     </div>
                     <div className="w-1/2">
                         <h1 className="text-5xl font-bold">Classic <p className="inline listening">Features </p><br></br>
@@ -131,7 +131,7 @@ function Landing() {
                 <div className="flex items-center flex-col justify-center w-full mt-16">
                     <h1 className="text-5xl font-bold">Our <p className="listening inline"> Pricing Plans </p> are<br></br>
                         Amazing</h1>
-                    <div className="flex items-center w-1/2">
+                    <div className="flex items-center w-2/3">
                         <div className="flex flex-col relative w-1/3 items-center mt-8  justify-center p-4  bg-gray-800 text-white border-4 border-white rounded-xl">
                             <span className="text-6xl my-4 font-bold">$12/<p className="text-xs inline">Month</p></span>
                             <div className="absolute -top-4 p-1 w-24 rounded-lg font-semibold text-black bg-yellow-600">Basic</div>
@@ -172,12 +172,13 @@ function Landing() {
                     </div>
                 </div>
                 <div className="footer text-white flex items-center justify-center p-6 mt-8 bg-gray-800 w-full">
-                    <div className="about flex w-2/12 flex-col items-center justify-center">
+                    <div className="about flex w-2/12 flex-col items-start justify-center">
                         <h1 className="text-3xl my-4 font-bold">About</h1>
                         <p>The music industry consists of the individuals and organizations that earn money by listen music.</p>
                         <div className="flex items-start justify-center p-2">
                             <i className="bi-map" style={{ 'fontSize': '1rem', 'color': 'orange' }}></i>
-                            <p>7835 Canal Lane, Los Angeles, CA 90037</p>
+                            <p className="ml-3">0782307144 Kigali, Rwanda<br></br>
+                            <p>KK105St</p></p>
                         </div>
                         <p>&copy;2022 | Precieux.Inc | All rights reserved</p>
                     </div>
@@ -211,7 +212,7 @@ function Landing() {
                             <li className="text-lg text-gray-500 cursor-pointer">Help</li>
                         </ul>
                     </div>
-                    <div className="flex flex-col items-center justify-center w-2/12">
+                    <div className="flex flex-col items-start justify-center w-2/12">
                         <h1 className="text-3xl my-4 font-bold">Newsletter!</h1>
                         <p>Subscribe our newsletter to get free updates daily
                         </p>
@@ -221,7 +222,7 @@ function Landing() {
                         </div>
                     </div>
                 </div>
-                <p>&copy;mTunes by Precieux. All rights reserved 2022</p>
+                <p  className="bg-gray-800 w-full py-4 m-0 text-white">&copy;mTunes by Precieux. All rights reserved 2022</p>
             </div>
         </div>
     )

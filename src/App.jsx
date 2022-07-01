@@ -37,9 +37,6 @@ function App() {
           <Route path='*' element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>
-      <div className='mt-10'>
-        &copy;mTunes by Precieux. All rights reserved 2022
-      </div>
     </div>
   );
 }
