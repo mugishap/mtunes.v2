@@ -21,6 +21,7 @@
     "shebang-command": "^2.0.0",
     "styled-components": "^5.3.5",
     "sweetalert": "^2.1.2",
+    "swiper": "^8.2.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

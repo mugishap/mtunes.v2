@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
+* {
     transition: ease all .5s;
 }
 
@@ -9,20 +9,40 @@
     font-family: Lobster;
     src: url('fonts/Lobster-Regular.ttf');
 }
+
 @font-face {
     font-family: Source;
     src: url('fonts/SourceSansPro-Regular.ttf');
 }
-.logo-text{
-font-family: Lobster;
+
+.logo-text {
+    font-family: Lobster;
 }
-*{
+
+* {
     font-family: Source;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
 }
-.mtunes-landing-text{
-  font-family: Lobster;
+
+.mtunes-landing-text {
+    font-family: Lobster;
+}
+
+.listening {
+    background-image: linear-gradient(105deg, #E59113, #A213E5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.listening:hover {
+    background-image: linear-gradient(285deg, #E59113, #A213E5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bordered {
+    border: 5px solid;
+    border-image: linear-gradient(45deg, purple, orange) 1;
 }
