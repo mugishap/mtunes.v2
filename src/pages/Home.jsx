@@ -65,7 +65,7 @@ function Home(props) {
     }, [songs])
     return (
         <div className="body">
-            <Navbar switchMode={props.switchMode} darkClass={props.darkClass} darkHandler={props.darkHandler} />
+            <Navbar />
             <Searchbar />
             {loader ?
                 <Homeloaders />
@@ -74,7 +74,7 @@ function Home(props) {
 
                     {shuffle(songs).map((track) => {
                         return (
-                            <Link to={'/song/' + track.key} key={track.key} className='w-full overflow-hidden p-2'>
+                            <Link to={'/song/' + track.key} key={track.key} className='w-4/5 overflow-hidden p-2'>
                                 <div className='w-full display overflow-hidden flex flex-col items-center justify-start'>
                                     <img title={track.share.subject} src={track.images.coverart} className=' hover:scale-105 object-cover object-center w-4/5 h-36' alt="" />
                                     <span title={track.share.subject}className='w-4/5 mt-1 flex items-center justify-start text-ellipsis whitespace-nowrap overflow-hidden text-left text-black'>{track.share.subject}</span>

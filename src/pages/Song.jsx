@@ -8,20 +8,29 @@ import Songloader from "./../Loaders/Songloader";
 import { checkForAccess } from "./check";
 
 function Song() {
-  checkForAccess();
+  // checkForAccess();
   const params = useParams();
 
   const [loader, setLoader] = useState(true);
   const [playUrl, setPlayUrl] = useState("");
   const [song, setSong] = useState({});
   const [lyrics, setLyrics] = useState([]);
-const [avatar,setAvatar] = useState('')
+  const [avatar, setAvatar] = useState('https://media.istockphoto.com/photos/error-404-3drendering-page-concept-picture-id1302333331?b=1&k=20&m=1302333331&s=170667a&w=0&h=t-4iFoxu6BLO002CSbv_F_S2b02xAiI5O1sYPjE92T8=')
+
 
   const getSong = async () => {
     const string = "song" + params.id;
     const check = localStorage.getItem(string);
     if (check != null) {
+
       const inLocal = await JSON.parse(check);
+      console.log(inLocal.sections[2].youtubeurl.actions[0].uri);
+      if (inLocal.sections[2].youtubeurl.actions[0].uri != null) {
+        getVideoStream(inLocal.sections[2].youtubeurl.actions[0].uri);
+      }
+      if (inLocal.sections[1].type === "LYRICS") setLyrics(inLocal.sections[1].text);
+      if (inLocal.sections[2].type === 'ARTIST') setAvatar(inLocal.sections[2].avatar)
+      if (inLocal.sections[3].type === 'ARTIST') setAvatar(inLocal.sections[3].avatar)
       setSong(inLocal);
       setLoader(false);
     } else {
@@ -37,17 +46,27 @@ const [avatar,setAvatar] = useState('')
         }
       );
       const data = await api.json();
-      console.log(data);
       setSong(data);
       const string = "song" + params.id;
       localStorage.setItem(string, JSON.stringify(data));
       if (data.sections[1].type === "LYRICS") setLyrics(data.sections[1].text);
-      if(data.sections[2].type ==='ARTIST') setAvatar(data.sections[2].avatar)
-      if(data.sections[3].type ==='ARTIST') setAvatar(data.sections[3].avatar)
-      console.log(data.sections[2].avatar)
+      console.log(data.sections[1].type)
+      if (data.sections[2].type === 'ARTIST') setAvatar(data.sections[2].avatar)
+      if (data.sections[3].type === 'ARTIST') setAvatar(data.sections[3].avatar)
       setLoader(false);
     }
   };
+
+
+  //Video stream function
+  const getVideoStream = async (url) => {
+    const api = await fetch('', {
+      method: "GET",
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await api.json();
+    setPlayUrl(data.url);
+  }
 
   useEffect(() => {
     getSong();
@@ -59,17 +78,17 @@ const [avatar,setAvatar] = useState('')
         <Songloader />
       ) : (
         <>
-          <div className="flex flex-row m-3 border-none shadow-2xl w-full p-3">
+          <div className="flex flex-row justify-between items-center m-3 border-none shadow-2xl w-full p-3">
             <div className="image w-1/5 h-64 flex items-center justify-center">
-              <div className="shadow-2xl w-4/5 h-4/5 flex overflow-hidden items-center hover:scale-110 rounded-2xl bg-slate-100 justify-center p-1 m-1">
+              <div className="shadow-2xl w-4/5 md:h-4/5 h-3/5 flex overflow-hidden items-center hover:scale-110 rounded-2xl bg-slate-100 justify-center p-1 m-1">
                 <img
-                  className="rounded-2xl song-image w-11/12 h-11/12 overflow-hidden cursor-pointer m-1"
+                  className="rounded-2xl song-image md:w-11/12 md:h-11/12 w-full overflow-hidden cursor-pointer m-1"
                   alt=""
                   src={song.images.coverart}
                 />
               </div>
             </div>
-            <div className="description w-2/4">
+            <div className="description w-2/5">
               <form className="w-full">
                 <div className="labels flex justify-around w-full items-center">
                   <label>Name:</label>
@@ -134,17 +153,18 @@ const [avatar,setAvatar] = useState('')
                   alt=""
                   src={avatar}
                   width={100}
-                  className="artist-image rounded-full"
+                  height={100}
+                  className="w-[100px] h-[100px] object-cover artist-image rounded-[100%]"
                 />
                 <span className="name-desc"></span>
               </div>
             </Link>
           </div>
-          <div className="player w-full">
+          <div className="player w-full text-center flex items-center justify-center">
             {playUrl === "" ? (
               <img
-                className="rounded-full"
-                src={require("./../images/loader.svg")}
+                className="rounded-full w-[70px] h-[70px] object-cover"
+                src={require("./../images/roller.gif")}
                 alt=""
               />
             ) : (
@@ -158,8 +178,8 @@ const [avatar,setAvatar] = useState('')
           <div className="lyrics">
             <h2 className="text-xl font-bold">Lyrics</h2>
             {lyrics ? (
-              lyrics.map((line) => {
-                return <div>{line}</div>;
+              lyrics.map((line, index) => {
+                return <div key={index}>{line}</div>;
               })
             ) : (
               <p className="text-sm">Lyrics not available!!</p>

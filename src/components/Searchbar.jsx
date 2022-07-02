@@ -12,13 +12,12 @@ function Searchbar() {
 
 
     return (
-        <div className='w-full h-full m-3 p-2 flex items-left flex-col justify-start'>
+        <div className='w-full h-full my-3 p-2 flex items-left flex-col justify-start'>
             <div>Quick Search</div>
             <form className='w-full h-full flex items-center justify-center' onSubmit={() => { window.location.replace('/search/song/' + searched) }}>
                 <input type="text" onChange={(e) => { setSearched(e.target.value) }} className='bg-orange-200 rounded box-border h-8 p-2 input sm:w-2/3 md:w-1/3 w-2/3' />
                 <Link to={'/search/song/' + searched}><button type='submit'><i className='translate-y-1 text-3xl text-black bx bx-search'></i></button></Link>
             </form>
-
         </div>
     )
 }
