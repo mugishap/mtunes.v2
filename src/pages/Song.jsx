@@ -24,13 +24,22 @@ function Song() {
     if (check != null) {
 
       const inLocal = await JSON.parse(check);
-      console.log(inLocal.sections[2].youtubeurl.actions[0].uri);
-      if (inLocal.sections[2].youtubeurl.actions[0].uri != null) {
-        getVideoStream(inLocal.sections[2].youtubeurl.actions[0].uri);
+      console.log(inLocal)
+      if (inLocal.sections.length > 0) {
+        for (let i = 0; i < inLocal.sections.length; i++) {
+          if (inLocal.sections[i].type === "VIDEO") {
+            getVideoStream(inLocal.sections[i].youtubeurl.actions[0].uri);
+          }
+
+          if (inLocal.sections[i].type === "LYRICS") {
+            setLyrics(inLocal.sections[i].text);
+          }
+          if (inLocal.sections[i].type === 'ARTIST') {
+            setAvatar(inLocal.sections[2].avatar)
+          }
+        };
       }
-      if (inLocal.sections[1].type === "LYRICS") setLyrics(inLocal.sections[1].text);
-      if (inLocal.sections[2].type === 'ARTIST') setAvatar(inLocal.sections[2].avatar)
-      if (inLocal.sections[3].type === 'ARTIST') setAvatar(inLocal.sections[3].avatar)
+
       setSong(inLocal);
       setLoader(false);
     } else {
@@ -49,23 +58,53 @@ function Song() {
       setSong(data);
       const string = "song" + params.id;
       localStorage.setItem(string, JSON.stringify(data));
-      if (data.sections[1].type === "LYRICS") setLyrics(data.sections[1].text);
-      console.log(data.sections[1].type)
-      if (data.sections[2].type === 'ARTIST') setAvatar(data.sections[2].avatar)
-      if (data.sections[3].type === 'ARTIST') setAvatar(data.sections[3].avatar)
+      console.log(data.sections)
+
+      if (data.sections.length > 0) {
+        for (let i = 0; i < data.sections.length; i++) {
+          if (data.sections[i].type === "VIDEO") {
+            getVideoStream(data.sections[i].youtubeurl.actions[0].uri);
+          }
+
+          if (data.sections[i].type === "LYRICS") {
+            setLyrics(data.sections[i].text);
+          }
+          if (data.sections[i].type === 'ARTIST') {
+            setAvatar(data.sections[2].avatar)
+          }
+        };
+      }
+
       setLoader(false);
     }
   };
 
+  //GetID function
+  function youtube_parser(url) {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match && match[7].length == 11) ? match[7] : false;
+  }
 
   //Video stream function
+
   const getVideoStream = async (url) => {
-    const api = await fetch('', {
-      method: "GET",
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const data = await api.json();
-    setPlayUrl(data.url);
+    console.log(url);
+    const playId = youtube_parser(url);
+    //Video streams
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': 'a6a50747c6msh3b9df5163dc6c28p1bb422jsn7f9f8d1462fc',
+        'X-RapidAPI-Host': 'ytstream-download-youtube-videos.p.rapidapi.com'
+      }
+    };
+
+    const api = await fetch('https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=' + playId + '&geo=DE', options)
+    const data = await api.json()
+    console.log(data);
+    console.log(data.link[250][0])
+    setPlayUrl(data.link[250][0]);
   }
 
   useEffect(() => {
@@ -80,7 +119,7 @@ function Song() {
         <>
           <div className="flex flex-row justify-between items-center m-3 border-none shadow-2xl w-full p-3">
             <div className="image w-1/5 h-64 flex items-center justify-center">
-              <div className="shadow-2xl w-4/5 md:h-4/5 h-3/5 flex overflow-hidden items-center hover:scale-110 rounded-2xl bg-slate-100 justify-center p-1 m-1">
+              <div className="shadow-2xl w-4/5 md:h-4/5 sm:h-3/5 h-2/5 flex overflow-hidden items-center hover:scale-110 rounded-2xl bg-slate-100 justify-center p-1 m-1">
                 <img
                   className="rounded-2xl song-image md:w-11/12 md:h-11/12 w-full overflow-hidden cursor-pointer m-1"
                   alt=""

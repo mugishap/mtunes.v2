@@ -27,7 +27,7 @@ function Searched() {
         const string = 'search/' + params.input
         const check = localStorage.getItem(string)
         if (check != null) {
-            checkForAccess()
+            // checkForAccess()
             const inLocal = JSON.parse(localStorage.getItem(string))
             setResults(inLocal)
             setHits(inLocal.tracks.hits)
@@ -39,7 +39,7 @@ function Searched() {
             }
         }
         else {
-            checkForAccess()
+            // checkForAccess()
             const api = await fetch(`https://shazam.p.rapidapi.com/search?term=${params.input}&locale=en-US&offset=0&limit=2`, {
                 method: 'GET',
                 headers: {

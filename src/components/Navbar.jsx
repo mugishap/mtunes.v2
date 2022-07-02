@@ -10,7 +10,6 @@ function Navbar() {
   const handleLogOut = async () => {
     const api = await fetch('http://localhost:4040/user/logout', {
       method: 'GET',
-      //credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await api.json()
@@ -46,10 +45,10 @@ function Navbar() {
       </div>
       <div className="inNav w-2/5 h-full text-black flex items-center justify-center">
         <ul className='sm:flex hidden  w-full m-0 p-0 flex-row items-center justify-center'>
-          <li className='w-1/5 mx-[1px] text-xl text-center'><Link to='/home' className='m-0 text-black hover:text-orange-500'>Home</Link></li>
-          <li className='w-1/5 mx-[1px] text-xl text-center'><Link to='/charts' className='text-black hover:text-orange-500'>Charts</Link></li>
-          <li className='w-1/5 mx-[1px] text-xl text-center'><Link to='/account' className='text-black hover:text-orange-500'>Account</Link></li>
-          <li className='w-1/5 mx-[1px] text-xl text-center whitespace-nowrap'><Link to='/about' className='text-black hover:text-orange-500'>About us</Link></li>
+          <li className='w-1/5 mx-[10px] text-xl text-center'><Link to='/home' className='m-0 text-black hover:text-orange-500'>Home</Link></li>
+          <li className='w-1/5 mx-[10px] text-xl text-center'><Link to='/charts' className='text-black hover:text-orange-500'>Charts</Link></li>
+          <li className='w-1/5 mx-[10px] text-xl text-center'><Link to='/account' className='text-black hover:text-orange-500'>Account</Link></li>
+          <li className='w-1/5 mx-[10px] text-xl text-center whitespace-nowrap'><Link to='/about' className='text-black hover:text-orange-500'>About us</Link></li>
         </ul>
       </div>
       <div className="inNav w-32 flex items-center justify-around">
