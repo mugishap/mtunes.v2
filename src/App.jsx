@@ -27,9 +27,9 @@ function App() {
           <Route path='/home' element={<Home />}></Route>
           <Route path='/about' element={<About />}></Route>
           <Route path='/charts' element={<Charts />}></Route>
-          <Route path='/signup' element={<Signup />}></Route>
-          <Route path='/account' element={<Account />}></Route>
+          <Route path='/forms' element={<Signup />}></Route>
           <Route path='/login' element={<Login />}></Route>
+          <Route path='/account' element={<Account />}></Route>
           <Route path='/loader' element={<Searchedloader />}></Route>
           <Route path='/search/song/:input' element={<Searched />}></Route>
           <Route path='/settings' element={<Settings />}></Route>

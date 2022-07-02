@@ -12,6 +12,7 @@ import './Home.css'
 function Home(props) {
 
     const [loader, setLoader] = useState(true)
+
     function shuffle(array) {
         let currentIndex = array.length, randomIndex;
         while (currentIndex !== 0) {
@@ -23,6 +24,7 @@ function Home(props) {
 
         return array;
     }
+
     const [songs, setSongs] = useState([])
     useEffect(() => {
         getSongs()
@@ -36,7 +38,7 @@ function Home(props) {
             const inLocal = JSON.parse(localStorage.getItem('songs'))
             // console.log(inLocal);
             setLoader(false)
-            checkForAccess()
+            // checkForAccess()
             setSongs(inLocal.tracks)
             // console.log(songs);
         }
@@ -68,15 +70,14 @@ function Home(props) {
             {loader ?
                 <Homeloaders />
                 :
-
-                <div className='home grid grid-cols-5 portrait:grid-cols-2 '>
+                <div className='home grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-2 grid-cols-1 items-center'>
 
                     {shuffle(songs).map((track) => {
                         return (
-                            <Link to={'/song/' + track.key} key={track.key} className='overflow-hidden'>
-                                <div className='w-72 display p-2 overflow-hidden flex flex-col items-center justify-center'>
-                                    <img src={track.images.coverart} className=' hover:scale-110 object-cover object-center w-4/5 h-36' alt="" />
-                                    <span className='w-4/5 mt-1 flex items-center justify-start text-left break-words'>{track.share.subject}</span>
+                            <Link to={'/song/' + track.key} key={track.key} className='w-full overflow-hidden p-2'>
+                                <div className='w-full display overflow-hidden flex flex-col items-center justify-start'>
+                                    <img title={track.share.subject} src={track.images.coverart} className=' hover:scale-105 object-cover object-center w-4/5 h-36' alt="" />
+                                    <span title={track.share.subject}className='w-4/5 mt-1 flex items-center justify-start text-ellipsis whitespace-nowrap overflow-hidden text-left text-black'>{track.share.subject}</span>
                                 </div>
                             </Link>
                         )
