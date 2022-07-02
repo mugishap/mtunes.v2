@@ -10,7 +10,6 @@ import Login from './pages/Login'
 import Searched from './pages/Searched';
 import Account from './pages/Account';
 import Notfound from './pages/Notfound';
-import Settings from './pages/Settings'
 import Searchedloader from './Loaders/Searchedloader';
 import Landing from './pages/Landing';
 import Artist from './pages/Artist';
@@ -32,7 +31,6 @@ function App() {
           <Route path='/account' element={<Account />}></Route>
           <Route path='/loader' element={<Searchedloader />}></Route>
           <Route path='/search/song/:input' element={<Searched />}></Route>
-          <Route path='/settings' element={<Settings />}></Route>
           <Route path='/artist/details/:name' element={<Artist/>}></Route>
           <Route path='*' element={<Notfound />}></Route>
         </Routes>

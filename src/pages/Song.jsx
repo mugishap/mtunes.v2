@@ -5,7 +5,8 @@ import { useParams, Link } from "react-router-dom";
 import "./Song.css";
 import Navbar from "../components/Navbar";
 import Songloader from "./../Loaders/Songloader";
-import { checkForAccess } from "./check";
+import { AiOutlineDownload } from 'react-icons/ai'
+import download from "../utils/downloader";
 
 function Song() {
   // checkForAccess();
@@ -16,7 +17,7 @@ function Song() {
   const [song, setSong] = useState({});
   const [lyrics, setLyrics] = useState([]);
   const [avatar, setAvatar] = useState('https://media.istockphoto.com/photos/error-404-3drendering-page-concept-picture-id1302333331?b=1&k=20&m=1302333331&s=170667a&w=0&h=t-4iFoxu6BLO002CSbv_F_S2b02xAiI5O1sYPjE92T8=')
-
+  const [songId, setSongId] = useState('')
 
   const getSong = async () => {
     const string = "song" + params.id;
@@ -41,6 +42,7 @@ function Song() {
       }
 
       setSong(inLocal);
+
       setLoader(false);
     } else {
       const api = await fetch(
@@ -56,6 +58,7 @@ function Song() {
       );
       const data = await api.json();
       setSong(data);
+
       const string = "song" + params.id;
       localStorage.setItem(string, JSON.stringify(data));
       console.log(data.sections)
@@ -83,7 +86,7 @@ function Song() {
   function youtube_parser(url) {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : false;
+    return (match && match[7].length === 11) ? match[7] : false;
   }
 
   //Video stream function
@@ -91,6 +94,7 @@ function Song() {
   const getVideoStream = async (url) => {
     console.log(url);
     const playId = youtube_parser(url);
+    setSongId(playId);
     //Video streams
     const options = {
       method: 'GET',
@@ -101,10 +105,29 @@ function Song() {
     };
 
     const api = await fetch('https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=' + playId + '&geo=DE', options)
-    const data = await api.json()
+    let data = await api.json()
+    if (!data.link && data.message === 'You have exceeded the DAILY quota for Requests on your current plan, BASIC. Upgrade your plan at https://rapidapi.com/ytjar/api/ytstream-download-youtube-videos') {
+      const options2 = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '4d3efa6d60mshe9647b4fc7ea6dbp1bf6dajsn7de302358e22',
+          'X-RapidAPI-Host': 'ytstream-download-youtube-videos.p.rapidapi.com'
+        }
+      };
+      const api = await fetch('https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=' + playId + '&geo=DE', options2)
+      data = await api.json()
+
+    }
+
     console.log(data);
     console.log(data.link[250][0])
     setPlayUrl(data.link[250][0]);
+
+  }
+
+  const downloadSong = () => {
+    download(songId)
+
   }
 
   useEffect(() => {
@@ -117,7 +140,7 @@ function Song() {
         <Songloader />
       ) : (
         <>
-          <div className="flex flex-row justify-between items-center m-3 border-none shadow-2xl w-full p-3">
+          <div className="flex flex-row justify-between items-center my-3 border-none shadow-2xl w-11/12 m-auto py-3">
             <div className="image w-1/5 h-64 flex items-center justify-center">
               <div className="shadow-2xl w-4/5 md:h-4/5 sm:h-3/5 h-2/5 flex overflow-hidden items-center hover:scale-110 rounded-2xl bg-slate-100 justify-center p-1 m-1">
                 <img
@@ -126,6 +149,7 @@ function Song() {
                   src={song.images.coverart}
                 />
               </div>
+
             </div>
             <div className="description w-2/5">
               <form className="w-full">
@@ -186,7 +210,7 @@ function Song() {
                 </div>
               </form>
             </div>
-            <Link className="w-1/3 h-full" to={`/artist/details/${song.subtitle}`}>
+            <Link className="w-1/5 h-full" to={`/artist/details/${song.subtitle}`}>
               <div className="artist w-full flex-col flex items-center justify-center">
                 <img
                   alt=""
@@ -207,11 +231,16 @@ function Song() {
                 alt=""
               />
             ) : (
-              <a target="_blank" href={playUrl} rel="noreferrer">
-                <button className="p-2 rounded bg-orange-500 w-24 m-1 text-white text-lg">
-                  Play
+              <div className="flex items-center justify-center">
+                <a target="_blank" href={playUrl} rel="noreferrer">
+                  <button className="p-2 rounded bg-orange-500 w-24 m-1 text-white text-lg">
+                    Play
+                  </button>
+                </a>
+                <button onClick={downloadSong} className="p-2 rounded bg-orange-500 w-24 m-1 flex items-center justify-center text-white text-lg">
+                  <AiOutlineDownload /> Download
                 </button>
-              </a>
+              </div>
             )}
           </div>
           <div className="lyrics">
